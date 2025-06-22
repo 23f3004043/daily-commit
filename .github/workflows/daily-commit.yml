@@ -1,25 +1,28 @@
 name: Daily Commit
 
+# triggers: daily + manual
 on:
   schedule:
-    - cron: "30 8 * * *"     # Runs daily at 08:30 UTC
-  workflow_dispatch:         # Allows manual run
+    - cron: "30 8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write   # allow pushes
 
 jobs:
   commit_job:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout main branch
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
 
       - name: Create empty commit by 23f3004043@ds.study.iitm.ac.in
         run: |
-          git config --global user.name "Daily Bot"
-          git config --global user.email "23f3004043@ds.study.iitm.ac.in"
-          git fetch origin
-          git checkout main
+          git config user.name "Daily Bot"
+          git config user.email "23f3004043@ds.study.iitm.ac.in"
           git commit --allow-empty -m "Daily commit"
           git push origin main
