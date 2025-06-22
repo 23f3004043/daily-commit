@@ -2,22 +2,22 @@ name: Daily Commit
 
 on:
   schedule:
-    - cron: "30 8 * * *"   # runs every day at 08:30 UTC
-  workflow_dispatch:       # allows you to run it manually
+    - cron: "30 8 * * *"  # runs daily at 08:30 UTC
+  workflow_dispatch:       # manual trigger
 
 jobs:
   commit_job:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Add empty commit by 23f3004043@ds.study.iitm.ac.in
+      - name: Make empty commit by 23f3004043@ds.study.iitm.ac.in
         run: |
           git config --global user.name "Daily Bot"
           git config --global user.email "23f3004043@ds.study.iitm.ac.in"
           git commit --allow-empty -m "Daily commit"
-          git push
+          git push origin main
